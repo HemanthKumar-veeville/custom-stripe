@@ -30,6 +30,7 @@ exports.createCustomAccount = async (accountData) => {
     });
     return account;
   } catch (error) {
+    console.log({ error });
     throw new Error(constants.ERRORS.ACCOUNT_CREATION_FAILED);
   }
 };
@@ -54,5 +55,17 @@ exports.createOnboardingLink = async (accountId) => {
     return link;
   } catch (error) {
     throw new Error(constants.ERRORS.ONBOARDING_LINK_FAILED);
+  }
+};
+
+exports.getBankAccountsByAccountId = async (accountId) => {
+  try {
+    const bankAccounts = await stripe.accounts.listExternalAccounts(accountId, {
+      object: "bank_account", // Retrieve only bank accounts (exclude cards)
+    });
+
+    return bankAccounts.data; // Return the list of bank accounts
+  } catch (error) {
+    throw new Error(constants.ERRORS.ACCOUNT_RETRIEVAL_FAILED);
   }
 };

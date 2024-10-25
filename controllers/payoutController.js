@@ -12,3 +12,20 @@ exports.createPayout = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.createTransfer = async (req, res, next) => {
+  try {
+    const { amount, currency, destination } = req.body;
+    const transfer = await payoutService.createTransfer(
+      amount,
+      currency,
+      destination
+    );
+    res.status(201).json({
+      message: "Transfer created successfully",
+      data: transfer,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

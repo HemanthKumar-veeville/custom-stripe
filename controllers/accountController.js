@@ -38,3 +38,16 @@ exports.createOnboardingLink = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getBankAccounts = async (req, res, next) => {
+  try {
+    const { id } = req.params; // The connected account ID from the request path
+    const bankAccounts = await accountService.getBankAccountsByAccountId(id);
+    res.status(200).json({
+      message: "Bank accounts retrieved successfully",
+      data: bankAccounts,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
