@@ -7,25 +7,16 @@ exports.createCustomAccount = async (accountData) => {
       type: "custom",
       country: "FR", // Specific to French users
       email: accountData.email,
-      business_type: "individual", // Or 'company' if applicable
-      individual: {
-        first_name: accountData.first_name,
-        last_name: accountData.last_name,
-        dob: {
-          day: accountData.dob.day,
-          month: accountData.dob.month,
-          year: accountData.dob.year,
-        },
-        address: {
-          line1: accountData.address.line1,
-          city: accountData.address.city,
-          postal_code: accountData.address.postal_code,
-          country: "FR", // Specific to French accounts
-        },
-      },
       capabilities: {
         card_payments: { requested: true },
         transfers: { requested: true },
+      },
+      settings: {
+        payouts: {
+          schedule: {
+            interval: "manual", // Requires manual payout trigger
+          },
+        },
       },
     });
     return account;
